@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mo Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+  <!--option 2 logic = <script src="script.js" defer></script>-->  
+    <!--IMPORT GOOGLE ICONS-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
+    
+</head>
+<body>
+    <main class="main-container">
+
+        <header class="search">
+            <input class="city-input" placeholder="Search City" type="text" spellcheck="false" >
+            <button class="search-btn">
+                <span class="material-symbols-outlined">
+                    search
+                    </span>
+            </button>
+        </header>
+        <section class="weather-info" >
+            <div class="location-date-container">
+                <div class="location small-detail-icon">
+                    <img src="assets/location.svg">
+                        <h4 class="city">
+                            Joburg
+                        </h4>
+                        
+                </div>
+                
+                <h5 class="current-date-txt regular-txt">26 Jan '25</h5>
+            </div>
+
+            <div class="weather-summary-container">
+                <div class="detail-icon">
+                    <img  class="weather-icon" >
+                </div>
+                
+                <div class="weather-summary-info">
+                    <h1 class="temp">29 °C</h1>
+                    <h3 class="condition-txt regular-txt"></h3>
+                </div>
+            </div>
+
+            <div class="weather-conditions-container">
+                <div class="condition-item small-detail-icon">
+                    <img src="assets/waterdrop.svg" >
+                    <div class="condition-info">
+                        <h5 class="humidity regular-txt">Humidity</h5>
+                        <h5 class="humidity-value-txt"></h5>
+                    </div>
+                </div>
+
+                <div class="condition-item small-detail-icon">
+                    <img src="assets/wind.svg" >
+                    <div class="condition-info">
+                        <h5 class="wind regular-txt">Wind Speed</h5>
+                        <h5 class="wind-value-txt"></h5>
+                    </div>
+                </div>
+
+                
+            </div>
+
+            <div class="forecast-items-container">
+                <div class="forecast-item detail-icon">
+                    <h5 class="forecast-item-date regular-txt">23 Jan</h5>
+                    <img src="assets/thunderstorm.svg"  class="forecast-item-img">
+                    <h5 class="forecast-item-temp">29 °C</h5>
+                </div>
+
+                <div class="forecast-item detail-icon">
+                    <h5 class="forecast-item-date regular-txt">23 Jan</h5>
+                    <img src="assets/thunderstorm.svg"  class="forecast-item-img">
+                    <h5 class="forecast-item-temp">29 °C</h5>
+                </div>
+
+                <div class="forecast-item detail-icon">
+                    <h5 class="forecast-item-date regular-txt">23 Jan</h5>
+                    <img src="assets/thunderstorm.svg"  class="forecast-item-img">
+                    <h5 class="forecast-item-temp">29 °C</h5>
+                </div>
+
+                <div class="forecast-item detail-icon">
+                    <h5 class="forecast-item-date regular-txt">23 Jan</h5>
+                    <img src="assets/thunderstorm.svg"  class="forecast-item-img">
+                    <h5 class="forecast-item-temp">29 °C</h5>
+                </div>
+
+                <div class="forecast-item detail-icon">
+                    <h5 class="forecast-item-date regular-txt">23 Jan</h5>
+                    <img src="assets/thunderstorm.svg"  class="forecast-item-img">
+                    <h5 class="forecast-item-temp">29 °C</h5>
+                </div>
+                
+            </div>
+        </section>
+    <section class="search-city section-message" style="display: none;">
+            <img  src="assets/search-city.webp" >
+
+            <div>
+                <h1>Search City</h1>
+                <h4 class="regular-txt">
+                    Found out the weather conditions of the city
+                </h4>
+            </div>
+        </section>
+        
+        <section class="not-found section-message" style="display: none;">
+            <img  src="assets/not-found.webp" >
+
+            <div>
+                <h1>Search City</h1>
+                <h4 class="regular-txt">
+                    Found out the weather conditions of the city
+                </h4>
+            </div>
+        </section>
+
+
+    </main>
+    <script>
+        const apiKey = "06f6fa834a3caa74fdf9969040dfd35e";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".weather-icon");
+
+        async function checkWeather(city){
+            const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+            var data = await response.json();
+
+            console.log(data);
+
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = Math.round( data.main.temp) + "°C";
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.wind.speed + "Km/h";
+
+            if(data.weather[0].main == "Clears"){
+                weatherIcon.src = "assets/clear.svg";
+            }
+            else if(data.weather[0].main == "Clouds") {
+                weatherIcon.src = "assets/clouds.svg";
+            }
+            else if(data.weather[0].main == "Rain") {
+                weatherIcon.src = "assets/rain.svg";
+            }
+            else if(data.weather[0].main == "Drizzle") {
+                weatherIcon.src = "assets/drizzle.svg";
+            }
+            else if(data.weather[0].main == "Mist") {
+                weatherIcon.src = "assets/mist.svg";
+            }
+            else if(data.weather[0].main == "Snow") {
+                weatherIcon.src = "assets/snow.svg";
+            }
+        }
+
+        searchBtn.addEventListener("click", ()=>{
+            checkWeather(searchBox.value);
+        })
+        
+    </script>
+    
+</body>
+</html>
