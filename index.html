@@ -13,15 +13,15 @@
 <body>
     <main class="main-container">
 
-        <header class="search">
+        <div class="search">
             <input class="city-input" placeholder="Search City" type="text" spellcheck="false" >
             <button class="search-btn">
                 <span class="material-symbols-outlined">
                     search
                     </span>
             </button>
-        </header>
-        <section class="weather-info" >
+        </div>
+        <section class="weather-info" style="display: none;" >
             <div class="location-date-container">
                 <div class="location small-detail-icon">
                     <img src="assets/location.svg">
@@ -36,7 +36,7 @@
 
             <div class="weather-summary-container">
                 <div class="detail-icon">
-                    <img  class="weather-icon" >
+                    <img src="assets/clear.svg" class="weather-icon" >
                 </div>
                 
                 <div class="weather-summary-info">
@@ -49,16 +49,16 @@
                 <div class="condition-item small-detail-icon">
                     <img src="assets/waterdrop.svg" >
                     <div class="condition-info">
-                        <h5 class="humidity regular-txt">Humidity</h5>
-                        <h5 class="humidity-value-txt"></h5>
+                        <h5 class="humidity-h5 regular-txt">Humidity</h5>
+                        <h5 class="humidity">50%</h5>
                     </div>
                 </div>
 
                 <div class="condition-item small-detail-icon">
                     <img src="assets/wind.svg" >
                     <div class="condition-info">
-                        <h5 class="wind regular-txt">Wind Speed</h5>
-                        <h5 class="wind-value-txt"></h5>
+                        <h5 class="wind-speed regular-txt">Wind Speed</h5>
+                        <h5 class="wind">2 km/h</h5>
                     </div>
                 </div>
 
@@ -98,7 +98,8 @@
                 
             </div>
         </section>
-    <section class="search-city section-message" style="display: none;">
+
+        <section class="search-city section-message" >
             <img  src="assets/search-city.webp" >
 
             <div>
@@ -122,7 +123,7 @@
 
 
     </main>
-    <script>
+ <!--  <script>
         const apiKey = "06f6fa834a3caa74fdf9969040dfd35e";
         const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
@@ -164,6 +165,63 @@
         searchBtn.addEventListener("click", ()=>{
             checkWeather(searchBox.value);
         })
+        
+    </script> -->  
+
+    <script>
+        const apiKey = "06f6fa834a3caa74fdf9969040dfd35e";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".weather-icon");
+
+        async function checkWeather(city){
+
+            
+
+            const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+            if(response.status == 404){
+                document.querySelector(not-found).style.display = "block";
+                document.querySelector(weather-info).style.display = "none";
+            }else {
+                var data = await response.json();
+
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+
+            if(data.weather[0].main == "Clouds"){
+                weatherIcon.src = "assets/clouds.svg"
+            }
+            else if (data.weather[0].main == "Clear"){
+                weatherIcon.src = "assets/clear.svg"
+            }
+            else if (data.weather[0].main == "Rain"){
+                weatherIcon.src = "assets/rain.svg"
+            }
+            else if (data.weather[0].main == "Drizzle"){
+                weatherIcon.src = "assets/drizzle.svg"
+            }
+            else if (data.weather[0].main == "Mist"){
+                weatherIcon.src = "assets/mist.svg"
+            }
+
+            document.querySelector(".weather-info").style.display = "block";
+            document.querySelector(".search-city").style.display = "none";
+            document.querySelector(".not-found").style.display = "none";
+            }
+
+            
+            
+        }
+// come back to the above to add more weather condition images //
+        searchBtn.addEventListener("click", ()=>{
+            checkWeather(searchBox.value);
+        })
+
+        
         
     </script>
     
