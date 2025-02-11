@@ -139,6 +139,10 @@ body::before {
 
 }
 
+.weather-icon img {
+    width: 100px;
+}
+
 .small-detail-icon img{
     width: 24px;
     height: 24px;
