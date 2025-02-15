@@ -127,6 +127,7 @@ body::before {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-top: 50px;
 }
 
 .condition-item {
@@ -140,7 +141,7 @@ body::before {
 }
 
 .weather-icon img {
-    width: 100px;
+    width: 200px;
 }
 
 .small-detail-icon img{
